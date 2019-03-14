@@ -11,5 +11,24 @@
            xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
            xmlns:ui="http://xmlns.oracle.com/soa/designer/"
            xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
+  <import namespace="http://xmlns.oracle.com/soaApp9base/soaProject9base/BPELHelloWorldProcess"
+          location="WSDLs/BPELHelloWorldProcess.wsdl" importType="wsdl"/>
+  <service name="bpelhelloworldprocess_client_ep" ui:wsdlLocation="WSDLs/BPELHelloWorldProcess.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/soaApp9base/soaProject9base/BPELHelloWorldProcess#wsdl.interface(BPELHelloWorldProcess)"/>
+    <binding.ws port="http://xmlns.oracle.com/soaApp9base/soaProject9base/BPELHelloWorldProcess#wsdl.endpoint(bpelhelloworldprocess_client_ep/BPELHelloWorldProcess_pt)"/>
+  </service>
   <property name="productVersion" type="xs:string" many="false">12.1.3.0.0</property>
+  <component name="BPELHelloWorldProcess" version="2.0">
+    <implementation.bpel src="BPEL/BPELHelloWorldProcess.bpel"/>
+    <componentType>
+      <service name="bpelhelloworldprocess_client" ui:wsdlLocation="WSDLs/BPELHelloWorldProcess.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/soaApp9base/soaProject9base/BPELHelloWorldProcess#wsdl.interface(BPELHelloWorldProcess)"/>
+      </service>
+    </componentType>
+    <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+  </component>
+  <wire>
+    <source.uri>bpelhelloworldprocess_client_ep</source.uri>
+    <target.uri>BPELHelloWorldProcess/bpelhelloworldprocess_client</target.uri>
+  </wire>
 </composite>
